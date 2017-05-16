@@ -1,0 +1,17 @@
+<script type='text/javascript'>
+function ggo () {
+var p='uid='+document.getElementById("uid").value;
+document.getElementById("go").innerHTML =p;
+var x=new XMLHttpRequest();
+x.onreadystatechange=function (){
+	if (this.readyState==4 && this.status==200)
+	document.getElementById("uid").value=this.responseText;
+	};
+	x.open('POST' , '/epoll/ajax.php', true);
+	x.setRequestHeader("Content-type",  "application/x-www-form-urlencoded");
+	x.send(p);
+	}
+</script>
+
+<input type='text' id='uid'>
+<button id='go' onclick='ggo()'> Go! </button>
