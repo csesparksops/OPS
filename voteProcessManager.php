@@ -1,3 +1,6 @@
+<?php if(!isset($_SESSION))
+		session_start();
+?>
 <?php
 	//require('DBManager.php');
 	require('vote.php');
@@ -15,20 +18,20 @@
 		}
 		
 		function saveVote($vote){
-			$Aadhaar_No = $vote->getAadhaar_No();
-			$Constituency_No = $vote->getConstituency_No();
-			$Candidate_No = $vote->getCandidate_No();
-			$Timestamp = $vote->getTimestamp();
-			$IP_Address = $vote->getIp_Address();
-			$Party = $vote->getPolitical_party();
-			$data = array($Aadhaar_No,$Constituency_No,$Candidate_No,$Timestamp,$IP_Address,$Party);
-			$result = $this->DBManagerObject->insertData($data,'vote_db');
-			if($result){
-				$loginManagerObj = new LoginManager;
-				$loginManagerObj->logout("Voter");
-			}else{
-				echo "error";
-			}
+				$Aadhaar_No = $vote->getAadhaar_No();
+				$Constituency_No = $vote->getConstituency_No();
+				$Candidate_No = $vote->getCandidate_No();
+				$Timestamp = $vote->getTimestamp();
+				$IP_Address = $vote->getIp_Address();
+				$Party = $vote->getPolitical_party();
+				$data = array($Aadhaar_No,$Constituency_No,$Candidate_No,$Timestamp,$IP_Address,$Party);
+				$result = $this->DBManagerObject->insertData($data,'vote_db');
+				if($result){
+					$loginManagerObj = new LoginManager;
+					$loginManagerObj->logout("Voter");
+				}else{
+					echo "error";
+				}
 		}
 	}
 ?>

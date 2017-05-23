@@ -1,3 +1,3 @@
 <?php
-	echo "Finally!!"
+	echo "The voting in this region has been closed."
 ?>

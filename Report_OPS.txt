@@ -6,8 +6,7 @@
 
    ** Political Party ** 			 ** Number Of Votes Received **
 
-  		BJP 					 2
-  		Bhartiya Janta Party 					 2
+  	Indian National Congress 					 1
 
 
 *******************************************************************************
@@ -18,8 +17,7 @@
 
    ** Political Party ** 			 ** Number Of Votes Received **
 
-  		INC 					 2
-  		BJP 					 1
+  	Bhartiya Janta Party 					 1
 
 
 *******************************************************************************

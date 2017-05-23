@@ -1,3 +1,4 @@
+<?php require('sendMsgAPI.php');?>
 <?php
 	class OTPServiceManager{
 		private $otp;
@@ -17,6 +18,7 @@
 			$this->generateOTP();
 			echo $this->otp;
 			//$result = exec("python sendMSG.py $Phone_No $this->otp");
+			//sendSMS("9804021941","DK9234998482",$Phone_No,$this->otp);
 		}
 		
 		function authenticateOTP($User_entered_otp){

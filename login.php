@@ -1,6 +1,11 @@
 <?php if(!isset($_SESSION))
 		session_start();
 ?>
+<?php
+	// BUG ID 42 Voters were able to cast vote after 4PM.
+	if(date('G') < 10 or date('G') > 16)
+		header("Location:welcome.php");
+?>
 <?php 
 	require("loginManager.php");
 	$loginManagerObject = new LoginManager;
@@ -11,15 +16,18 @@
 		}else{
 			$aadhaar_no = $_POST['aadhaar'];
 			if($loginManagerObject->checkValidity($aadhaar_no) == true){
-				$_SESSION['uid'] = $aadhaar_no;
-				$ip = getenv('HTTP_CLIENT_IP')?:
-				getenv('HTTP_X_FORWARDED_FOR')?:
-				getenv('HTTP_X_FORWARDED')?:
-				getenv('HTTP_FORWARDED_FOR')?:
-				getenv('HTTP_FORWARDED')?:
-				getenv('REMOTE_ADDR');
-				$_SESSION['ip'] = $ip;
-				$loginManagerObject->voterLogin($aadhaar_no);
+				if($loginManagerObject->checkAlreadyVoted($aadhaar_no) == false){
+					$_SESSION['uid'] = $aadhaar_no;
+					$ip = getenv('HTTP_CLIENT_IP')?:
+					getenv('HTTP_X_FORWARDED_FOR')?:
+					getenv('HTTP_X_FORWARDED')?:
+					getenv('HTTP_FORWARDED_FOR')?:
+					getenv('HTTP_FORWARDED')?:
+					getenv('REMOTE_ADDR');
+					$_SESSION['ip'] = $ip;
+					$loginManagerObject->voterLogin($aadhaar_no);
+				}else
+					$error = "You have already voted";
 			}else{
 				$error = "Not a Registered User";
 			}

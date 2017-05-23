@@ -1,3 +1,3 @@
 <?php
-	print_r (string)time();
+	echo date('G');
 ?>

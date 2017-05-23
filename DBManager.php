@@ -20,8 +20,6 @@
 			try{
 				$this->conn = mysqli_connect($this->server,$this->username,$this->password);
 				mysqli_select_db($this->conn,$this->db_container);
-				//$arr = array("Name","Phone_No");
-				//$this->selectData($arr,"aadhaar_db");
 			}catch(Exception $e){
 				echo "Message : ".$e->getMessage();
 			}

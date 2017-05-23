@@ -1,22 +1,40 @@
 <?php
 	if(!isset($_SESSION))
 		session_start();
+	
+	// BUG ID 42 Voters were able to cast vote after 4PM.
+	if(date('G') < 10 or date('G') > 16)
+		header("Location:welcome.php");
+	
 	$const_no = $_SESSION['const_no'];
 	require('voteProcessManager.php');
 	$voteProcessManagerObject = new voteProcessManager;
+	$loginManagerObject = new loginManager;
 	$result = $voteProcessManagerObject->listCandidate($const_no);
 	$counter = 1;
 	$var = "";
 ?>
 <?php
 	if(isset($_POST['vote_button'])){
-		$var = $_POST['hidden_field1'];
-		$var2 = $_POST['hidden_field2'];
-		date_default_timezone_set('Asia/Kolkata');
-		$now =  date('Y-m-d H:i:s');
-		$data = array($_SESSION['uid'],$_SESSION['const_no'],$var,$now,$_SESSION['ip'],$var2);
-		$vote = new Vote($data);
-		$voteProcessManagerObject->saveVote($vote);
+		echo "Hello";
+		// Bug 44 - Problem of multiple voting. 
+		// Here if the voter has voted once then the first vote cast by him will be submitted.
+		if($loginManagerObject->checkAlreadyVoted($_SESSION['uid']) == false){
+			$var = $_POST['hidden_field1'];
+			$var2 = $_POST['hidden_field2'];
+			date_default_timezone_set('Asia/Kolkata');
+			$now =  date('Y-m-d H:i:s');
+			$data = array($_SESSION['uid'],$_SESSION['const_no'],$var,$now,$_SESSION['ip'],$var2);
+			$vote = new Vote($data);
+			$voteProcessManagerObject->saveVote($vote);
+		}else{
+				session_unset();
+				session_destroy();
+				echo "<script>
+				alert('You have already voted');
+				window.location.href='login.php';
+				</script>";
+			}
 	}
 ?>
 <?php if(isset($_SESSION['uid']) && isset($_SESSION['epic']) && isset($_SESSION['name']) && isset($_SESSION['ip'])){ ?>
@@ -90,10 +108,11 @@
 										$img_path = 'Pics\votelight.png';
 									else
 										$img_path = 'Pics\votelightvoted.png';
+									echo $var;
 								?>
-								<td><img src = "<?php echo $img_path;?>"></td>
+								<td><img id = "<?php echo 'pic'.$counter;?>" src = "Pics\votelight.png"></td>
 								<form action = "<?=$_SERVER['PHP_SELF']?>" method = "post">
-									<td><button type = "submit" name = "vote_button" id = "vote_button"><img src = "Pics\votebutton.png"></button></td>
+									<td><button type = "submit" name = "vote_button" id = "vote_button";"><img src = "Pics\votebutton.png"></button></td>
 									<input type = "hidden" name = "hidden_field1" value = "<?php echo $row['Candidate_No'];?>">
 									<input type = "hidden" name = "hidden_field2" value = "<?php echo $row['Political_Party'];?>">
 								</form>

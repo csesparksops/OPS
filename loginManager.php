@@ -27,6 +27,15 @@
 			}
 		}
 		
+		function checkAlreadyVoted($aadhaar_no){
+			$data = array($aadhaar_no,'Aadhaar_No');
+			$result = $this->DBManagerObject->selectData($data,'vote_db');
+			if(mysqli_num_rows($result) == 1)
+				return true;
+			else
+				return false;
+		}
+		
 		function utilOTP($check_data){
 			$output = $this->OTPServiceManagerObject->authenticateOTP((string)$check_data[0]);
 			if($output){

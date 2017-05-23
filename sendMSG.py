@@ -7,8 +7,8 @@ import sys
  
 username = '9804021941'
 passwd = 'DK9234998482'
-message = sys.argv[2]
-number = sys.argv[1]
+message = 'hello'
+number = '9007309076'
 message = "+".join(message.split(' '))
  
 #Logging into the SMS Site
