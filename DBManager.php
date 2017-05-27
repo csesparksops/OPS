@@ -3,10 +3,10 @@
 		
 		//Voter Object
 
-		private $server = "localhost";
-		private $username = "root";
-		private $password = "";
-		private $db_container = "ops";
+		private $server = "ftp.uidai-gov.96.lt";
+		private $username = "u202748582";
+		private $password = "cse.sparks123";
+		private $db_container = "online-election-system-efb83";
 		
 		var $conn;
 		
